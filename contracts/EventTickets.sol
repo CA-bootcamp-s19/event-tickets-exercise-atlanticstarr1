@@ -11,6 +11,7 @@ contract EventTickets {
         Use the appropriate keyword to create an associated getter function.
         Use the appropriate keyword to allow ether transfers.
      */
+    address payable public owner;
 
     uint   TICKET_PRICE = 100 wei;
 
@@ -20,6 +21,14 @@ contract EventTickets {
         Choose the appropriate variable type for each field.
         The "buyers" field should keep track of addresses and how many tickets each buyer purchases.
     */
+    struct Event{
+        string description;
+        string website;
+        uint totalTickets;
+        uint sales;
+        mapping(address => uint) buyers;
+        bool isOpen;
+    }
 
     Event myEvent;
 
@@ -29,10 +38,17 @@ contract EventTickets {
         LogGetRefund should provide information about the refund requester and the number of tickets refunded.
         LogEndSale should provide infromation about the contract owner and the balance transferred to them.
     */
+    event LogBuyTickets(address buyer, uint ticketsPurchased);
+    event LogGetRefund(address requester, uint noOfTicketsRefunded);
+    event LogEndSale(address contractOwner, uint balance);
 
     /*
         Create a modifier that throws an error if the msg.sender is not the owner.
     */
+    modifier isOwner(){
+        require(msg.sender == owner,"only owner is allowed");
+        _;
+    }
      
     /*
         Define a constructor.
@@ -40,6 +56,12 @@ contract EventTickets {
         Set the owner to the creator of the contract.
         Set the appropriate myEvent details.
     */
+    constructor(string memory _description, string memory _url, uint _noOfTicketsForSale) public {
+        owner = msg.sender;
+        myEvent.description = _description;
+        myEvent.website = _url;
+        myEvent.totalTickets = _noOfTicketsForSale;
+    }
     
     /*
         Define a funciton called readEvent() that returns the event details.
@@ -47,11 +69,14 @@ contract EventTickets {
         The returned details should be called description, website, uint totalTickets, uint sales, bool isOpen in that order.
     */
     function readEvent() 
-
-        public 
+        public view
         returns(string memory description, string memory website, uint totalTickets, uint sales, bool isOpen) 
     {
-
+        description = myEvent.description;
+        website = myEvent.website;
+        totalTickets = myEvent.totalTickets;
+        sales = myEvent.sales;
+        isOpen = myEvent.isOpen;
     }
 
     /*
