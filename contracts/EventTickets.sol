@@ -138,8 +138,6 @@ contract EventTickets {
         myEvent.buyers[msg.sender] -= totalTicketsPurchased;
         myEvent.totalTickets += totalTicketsPurchased;
         uint totalToRefund = totalTicketsPurchased * TICKET_PRICE;
-        //update sales
-        //myEvent.sales -= totalToRefund;
         // refund user
         msg.sender.transfer(totalToRefund);
         emit LogGetRefund(msg.sender, totalTicketsPurchased);
