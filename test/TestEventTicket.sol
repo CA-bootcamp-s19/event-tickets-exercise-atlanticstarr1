@@ -5,7 +5,7 @@ import "truffle/DeployedAddresses.sol";
 import "../contracts/EventTickets.sol";
 import "../contracts/EventTicketsV2.sol";
 
-contract TestEventTickets {
+contract TestEventTicket {
     uint public initialBalance = 1 ether;
     EventTickets myEvent1 = new EventTickets("My Party", "www.myparty.com",10);
     address buyer = address(this);
